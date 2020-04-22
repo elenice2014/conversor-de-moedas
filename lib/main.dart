@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -51,14 +51,18 @@ class _HomeState extends State<Home> {
     double dolar = double.parse(text);
     realController.text = (dolar * this.dolar).toStringAsFixed(2);
     euroController.text = (dolar * this.dolar/euro).toStringAsFixed(2);
-
   }
 
   void _euroChanged(String text){
     double euro = double.parse(text);
     realController.text = (euro * this.euro).toStringAsFixed(2);
     dolarController.text = (euro * this.euro/dolar).toStringAsFixed(2);
-
+  }
+  //limpa os campos
+  void _resetField(){
+    realController.text = "";
+    dolarController.text = "";
+    euroController.text = "";
   }
   @override
   Widget build(BuildContext context) {
@@ -68,6 +72,11 @@ class _HomeState extends State<Home> {
           title: Text("\$ Conversor \$"),
           backgroundColor: Colors.amber,
           centerTitle: true,
+          actions: <Widget>[
+           IconButton(icon: Icon(Icons.refresh),
+               onPressed: _resetField,
+           )
+          ],
         ),
         body: FutureBuilder<Map>(
             future: getData(),
